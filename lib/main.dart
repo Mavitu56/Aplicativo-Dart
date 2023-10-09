@@ -56,7 +56,9 @@
 
   class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     int _counter = 0;
+    int _counter10=0;
     late AnimationController _animationController;
+    late AnimationController _animationController2;
     late Animation<double> _scaleAnimation;
     double _ballSize = 50.0;
   @override
@@ -66,6 +68,10 @@
         vsync: this,
         duration: const Duration(milliseconds: 230),
       );
+       _animationController2 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 650),
+    );
       _scaleAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
         CurvedAnimation(
           parent: _animationController,
@@ -86,14 +92,36 @@
 
     void _incrementCounter() {
       setState(() {
-        _animateBallGrow();
         _counter++;
+      if (_counter%10==0) {
+        _animateBallWither();
+        _counter10++; // Inicia a animação de diminuir a bola
+      } else {
+        _animateBallGrow(); // Inicia a animação de aumentar a bola
+      }
       });
     }
     void _animateBallGrow() {
       _ballSize += 5.0;
       _animationController.forward(from: 0);
     }
+
+    void _animateBallWither() {
+    if (_counter%10==0) {
+      final animation = Tween<double>(begin: _ballSize, end: 50.0).animate(
+        CurvedAnimation(
+          parent: _animationController2,
+          curve: Curves.easeInOut,
+        ),
+      );
+      animation.addListener(() {
+        setState(() {
+          _ballSize = animation.value;
+        });
+      });
+      _animationController2.forward(from: 0);
+    }
+  }
 
     @override
     Widget build(BuildContext context) {
@@ -154,6 +182,10 @@
                 '$_counter',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
+              const SizedBox(height:100),
+            Text(
+              'Número de bolas enchidas: $_counter10',
+            ),
             ],
           ),
         ),
