@@ -56,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  double _ballSize = 50.0;
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -105,6 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            GestureDetector(
+              child: SizedBox(
+                width: _ballSize,
+                height: _ballSize,
+                child: const Icon(
+                  Icons.sports_soccer, // Ícone de bola de futebol
+                  size: 50.0,
+                  color: Colors.lightBlueAccent,
+                ),
+                  ),
+            ),
             const Text(
               'Número de vezes que a bomba foi apertada:',
             ),
@@ -118,8 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        child: Image.asset('images/bomba_de_ar.png', width: 36.0, height: 36.0), 
+        ),
+         // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
